@@ -1,41 +1,52 @@
 # git_repo_analyzer/cli.py
 import click
-from git_repo_analyzer.analyzer import analyze_repository
 import os
+from git_repo_analyzer.analyzer import analyze_repository
 
 @click.group()
 def cli():
     """Git Repository Analyzer CLI"""
     pass
 
+# --- New "scan" command (preferred) ---
 @cli.command()
 @click.argument("path", required=False)
-@click.option("--url", "-u", help="GitHub repository URL to clone and analyze (e.g. https://github.com/user/repo).")
+@click.option("--report", "-r", type=click.Choice(["html", "md"]), help="Generate report in specified format")
+@click.option("--show-branches", is_flag=True, help="Include branch statistics")
+@click.option("--complexity", is_flag=True, help="Include code complexity analysis")
+def scan(path, report, show_branches, complexity):
+    """Scan a repository (preferred command)"""
+    if not path:
+        click.echo("Please specify a repository path.")
+        return
+
+    repo_source = ("local", path)
+    analyze_repository(repo_source, report, show_branches, complexity)
+
+
+# --- Legacy "analyze" command (kept for .exe compatibility) ---
+@cli.command()
+@click.argument("path", required=False)
+@click.option("--url", "-u", help="GitHub repository URL to clone and analyze.")
 @click.option("--local", "-l", type=click.Path(exists=True), help="Local repository path to analyze.")
-def analyze(path, url, local):
-    """
-    Analyze a repository.
-
-    Usage examples:
-      repo-analyzer /path/to/local/repo
-      repo-analyzer --local /path/to/local/repo
-      repo-analyzer --url https://github.com/user/repo
-    """
-    repo_source = None
-
-    # Priority: explicit --local, then explicit --url, then positional path (local).
+@click.option("--report", "-r", type=click.Choice(["html", "md"]), help="Generate report in specified format")
+@click.option("--show-branches", is_flag=True, help="Include branch statistics")
+@click.option("--complexity", is_flag=True, help="Include code complexity analysis")
+def analyze(path, url, local, report, show_branches, complexity):
+    """Analyze a repository (legacy command)"""
     if local:
         repo_source = ("local", local)
     elif url:
         repo_source = ("url", url)
     elif path:
-        # treat positional argument as a path (local)
         repo_source = ("local", path)
     else:
-        click.echo("Provide either a local path or a --url to clone. See --help for usage.")
+        click.echo("Provide either a local path or a --url to clone.")
         return
 
-    analyze_repository(repo_source)
+    analyze_repository(repo_source, report, show_branches, complexity)
+    
+
 
 if __name__ == "__main__":
     cli()

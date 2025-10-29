@@ -27,4 +27,7 @@ include-package-data = true
 include = ["git_repo_analyzer"]
 
 [project.scripts]
+git-repo-analyzer = "git_repo_analyzer.cli:cli"
 git_repo_analyzer = "git_repo_analyzer.cli:cli"
+
+
