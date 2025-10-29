@@ -1,0 +1,2 @@
+[console_scripts]
+git_repo_analyzer = git_repo_analyzer.cli:cli

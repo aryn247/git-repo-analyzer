@@ -1,0 +1,7 @@
+gitpython
+pygments
+matplotlib
+rich
+click
+pytest
+requests   

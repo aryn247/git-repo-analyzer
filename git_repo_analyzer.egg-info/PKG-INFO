@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: git-repo-analyzer
+Version: 0.1.0
+Summary: A CLI tool to analyze Git repositories
+Author: Your Name
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: GitPython
+Requires-Dist: matplotlib
+Requires-Dist: click
+Requires-Dist: rich
+Requires-Dist: pygments

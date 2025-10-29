@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "git-repo-analyzer"
+version = "0.1.0"
+description = "A CLI tool to analyze Git repositories"
+authors = [
+    { name = "Your Name" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+
+dependencies = [
+    "GitPython",
+    "matplotlib",
+    "click",
+    "rich",
+    "pygments"
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["git_repo_analyzer"]
+
+[project.scripts]
+git_repo_analyzer = "git_repo_analyzer.cli:cli"

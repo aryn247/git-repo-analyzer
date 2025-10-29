@@ -1,0 +1,5 @@
+GitPython
+matplotlib
+click
+rich
+pygments
